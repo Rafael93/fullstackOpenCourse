@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import Header from "./components/header";
 import Button from "./components/button";
-import Display from "./components/display";
 import Statistics from "./components/statistics";
 const App = (props) => {
   const course = {
@@ -57,29 +56,29 @@ const App = (props) => {
 
   const points = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
 
-  const copy = { ...points };
-
   const showRandomAnecdote = () => {
     let index = Math.floor(Math.random() * props.anecdotes.length);
     return props.anecdotes[index];
   };
 
   const [anecdote, setAnecdote] = useState(showRandomAnecdote);
+
+  const [copy, setCopy] = useState({ ...points });
+  const handleVote = () => {
+    let key = anecdotes.indexOf(anecdote);
+    copy[key] += 1;
+    setCopy(copy);
+  };
+
   return (
     <>
-      {anecdote}
+      <Header text={"Anecdote of the day"} />
       <br />
       <Button
         handleClick={() => setAnecdote(showRandomAnecdote)}
         text="Next Anecdote"
       />
-      <Button
-        handleClick={() => {
-          console.log(anecdotes.indexOf(anecdote));
-        }}
-        text="Vote"
-      />
-
+      <Button handleClick={() => handleVote()} text="Vote" />
       <Header text={"give feedback"} />
       <Button
         handleClick={() => {
